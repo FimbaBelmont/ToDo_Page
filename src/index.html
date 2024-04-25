@@ -6,14 +6,77 @@
     <title>Todo Page</title>
 </head>
 <body>
+    <div id="popup">
+        <div class="popupContent">
+            <form>
+                <section>
+                    <button type="button" id="closePopup">X</button>
+                    <fieldset>New Task</fieldset>
+                    <ol>
+                        <li>
+                            <label for="Ttitle">Title</label><br>
+                            <input type="text" id="Ttitle" name="Ttitle">
+                        </li>
+                        <li>
+                            <label for="Tdesc">Description</label><br>
+                            <input type="text" id="Tdesc" name="Tdesc">
+                        </li>
+                        <li>
+                            <label for="Tdate">Date</label><br>
+                            <input type="date" id="Tdate" name="Tdate">
+                        </li>
+                        <li>
+                            <label for="Tprio">Priority</label><br>
+                            <input type="number" id="Tprio" name="Tprio" min="1" max="10">
+                        </li>
+                        <li>
+                            <label for="Tnote">Notes</label><br>
+                            <input type="text" id="Tnote" name="Tnote">
+                        </li>
+                        <li>
+                            <p>Is it completed?</p>
+                            <input type="radio" id="TcheckNo" name="Tcheck" value="no" checked>
+                            <label for="TcheckNo">No</label>
+                            <input type="radio" id="TcheckYes" name="Tcheck" value="yes">
+                            <label for="TcheckYes">Yes</label>
+                        </li>
+                    </ol>
+                    <fieldset>
+                        <button type="button" id="addTask">Add</button>
+                    </fieldset>
+                </section>
+            </form>
+        </div>
+    </div>
+    <div class="projectPopup">
+        <div class="popupContent">
+            <form>
+                <section>
+                    <button type="button" id="closePopup">X</button>
+                    <fieldset>New Project</fieldset>
+                            <ol>
+                                <li>
+                                    <label for="Ptitle">Title</label><br>
+                                    <input type="text" id="Ptitle" name="Ptitle">
+                                </li>
+                            </ol>
+                            <fieldset>
+                                <button type="button" id="addProj">Add</button>
+                            </fieldset>
+                </section>
+            </form>
+        </div>
+    </div>
+    
     <header>
-        <button class="header createTodo">Create a new task</button>
-        <button class="header createProj">Create a new Project</button>
+        <h1>Fimba's<br>To-do<br>Site</h1>
+        <button class="createTodo">Create a New Task</button>
+        <button class="createProj">Create a New Project</button>
     </header>
     <div class="sideBar">
-        <button class="sideBar viewAll">View All Projects</button>
+        <button class="viewAll">View All Projects</button>
+        <div class="projList"></div>
     </div>
     <div class="content"></div>
-    <script src="index.js"></script>
 </body>
 </html> 

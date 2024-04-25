@@ -1,7 +1,8 @@
-import {TODO} from "./todoClass"
+import {TODO} from "./todoClass.js"
 
 let ProjectsArr = [];
 let ProjectsNameArr = [];
+let selectedProj = null;
 function createProject (name) {
     ProjectsArr.push([]);
     ProjectsNameArr.push(name);
@@ -26,4 +27,4 @@ function deleteProj (projIdx) {
 }
 
 
-export {ProjectsArr, ProjectsNameArr, createProject, creatingTodo, changeTodoAtt, deleteTodo, deleteProj};
+export {ProjectsArr, ProjectsNameArr, createProject, creatingTodo, changeTodoAtt, deleteTodo, deleteProj, selectedProj};
