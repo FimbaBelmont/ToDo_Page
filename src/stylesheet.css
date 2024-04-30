@@ -64,7 +64,7 @@ header {
   flex-direction: row;
   padding: 10px;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   border: 10px solid var(--outline);
   border-left: 0px;
   border-bottom-right-radius: 30px;
@@ -101,8 +101,27 @@ header button {
 .todoTopRight img {
     width: 20px;
 }
-.projNameContainer, .viewText {
-    grid-area: 1/1/2/4;
+.projNameContainer {
+    grid-area: 1/1/2/2;
+}
+.viewText {
+  grid-area: 1/1/2/4;
+}
+.sortButtons {
+    grid-area: 1/2/2/4;
+    display: grid;
+    font-size: 24px;
+    color: #240a34;
+    grid-auto-columns: 1fr;
+    grid-auto-flow: column;
+    justify-items: end;
+    align-items:center;
+    gap:5px
+}
+.sortButtons button {
+width:130px;
+text-align: center;
+height: 40px;
 }
 .projNameContainer img {
     filter: invert(0%) sepia(98%) saturate(0%) hue-rotate(13deg) brightness(98%) contrast(105%);
@@ -210,4 +229,12 @@ h1 {
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.8);
   display: none;
+}
+
+.headerButtons {
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+}
+.SortButtons {
+  grid-area: 2/2/3/3;
 }

@@ -1,7 +1,20 @@
 import {TODO} from "./todoClass.js"
-
+import { JsonParser } from "./projSave.js";
+import { createView, projList } from "./projectView.js";
 let ProjectsArr = [];
 let ProjectsNameArr = [];
+if (!(localStorage.getItem("projArr"))) {
+
+} else {
+     ProjectsArr = JsonParser(localStorage.getItem("projArr"));
+     ProjectsNameArr = JsonParser(localStorage.getItem("projNameArr"));
+     createView(0, 1);
+     projList();
+  };
+
+
+
+
 function createProject (name) {
     ProjectsArr.push([]);
     ProjectsNameArr.push(name);
@@ -23,6 +36,8 @@ function deleteTodo (projIdx, todoIdx) {
 
 function deleteProj (projIdx) {
     ProjectsArr.splice(projIdx, 1);
+    ProjectsNameArr.splice(projIdx,1);
+
 }
 
 

@@ -15,7 +15,7 @@
                     <ol>
                         <li>
                             <label for="Ttitle">Title</label><br>
-                            <input type="text" id="Ttitle" name="Ttitle">
+                            <input type="text" id="Ttitle" name="Ttitle" required>
                         </li>
                         <li>
                             <label for="Tdesc">Description</label><br>
@@ -23,11 +23,11 @@
                         </li>
                         <li>
                             <label for="Tdate">Date</label><br>
-                            <input type="date" id="Tdate" name="Tdate">
+                            <input type="date" id="Tdate" name="Tdate" required>
                         </li>
                         <li>
                             <label for="Tprio">Priority</label><br>
-                            <input type="number" id="Tprio" name="Tprio" min="1" max="10">
+                            <input type="number" id="Tprio" name="Tprio" min="1" max="5" required>
                         </li>
                         <li>
                             <label for="Tnote">Notes</label><br>
@@ -70,8 +70,15 @@
     
     <header>
         <h1>Fimba's<br>To-do<br>Site</h1>
-        <button class="createTodo">Create a New Task</button>
-        <button class="createProj">Create a New Project</button>
+        <div class="headerButtons">
+            <button class="createTodo">Create a New Task</button>
+            <button class="createProj">Create a New Project</button>
+            <div class="SortButtons">
+                <button class="viewAllComplete">View All</button>
+                <button class="viewComplete">View Completed</button>
+                <button class="viewIncomplete">View Incomplete</button>
+            </div>
+        </div>
     </header>
     <div class="sideBar">
         <button class="viewAll">View All Projects</button>

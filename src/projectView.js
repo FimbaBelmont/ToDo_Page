@@ -1,6 +1,13 @@
-import { ProjectsArr, ProjectsNameArr, changeTodoAtt } from "./projects.js";
+import { ProjectsArr,deleteTodo, ProjectsNameArr, changeTodoAtt, deleteProj } from "./projects.js";
 import img from "./cancel.svg";
 import img2 from "./edit_pen.svg";
+import { format, formatDistanceToNow } from "date-fns";
+import { sortComplete,
+	sortTitle, 
+	sortPrio,
+	sortDate,
+	sortValueChanger } from "./projSorter.js";
+	import { projSave } from "./projSave.js";
 
 let changedTodo = 0;
 let changedProjIdx = 0;
@@ -15,7 +22,7 @@ function changeValueSet(value) {
 function setter(changedVar, value) {
 	changedVar = value;
 }
-function createView(projIdx) {
+function createView(projIdx, sortValue) {
 	const container = document.querySelector(".content");
 	container.innerHTML = "";
 	const projNameContainer = document.createElement("div");
@@ -37,7 +44,95 @@ function createView(projIdx) {
 			.setAttribute("style", "display:block");
 		document.querySelector("#Ptitle").value = ProjectsNameArr.at(projIdx);
 	});
-	ProjectsArr.at(projIdx).forEach((element, index) => {
+	const projDeleteBtt = document.createElement("img");
+	projDeleteBtt.src = img;
+	projNameContainer.appendChild(projDeleteBtt);
+	projDeleteBtt.addEventListener("click", ()=>{
+		deleteProj(projIdx);
+		viewAll();
+		projList();
+	})
+	const sortButtons = document.createElement("div");
+	sortButtons.classList.add("sortButtons");
+	container.appendChild(sortButtons);
+	const sortText= document.createElement("h5");
+	sortText.textContent = "Sort by:";
+	sortButtons.appendChild(sortText);
+	const sort1 = document.createElement("button");
+	sort1.classList.add("sort1");
+	sort1.textContent = "Creation Date";
+	sortButtons.appendChild(sort1);
+	const sort2 = document.createElement("button");
+	sort2.classList.add("sort2");
+	sort2.textContent = "Completeness";
+	sortButtons.appendChild(sort2);
+	const sort3 = document.createElement("button");
+	sort3.classList.add("sort3");
+	sort3.textContent = "Title";
+	sortButtons.appendChild(sort3);
+	const sort4 = document.createElement("button");
+	sort4.classList.add("sort4");
+	sort4.textContent = "Priority";
+	sortButtons.appendChild(sort4);
+	const sort5 = document.createElement("button");
+	sort5.classList.add("sort5");
+	sort5.textContent = "Oldest";
+	sortButtons.appendChild(sort5);
+	
+	let usedArr = [];
+	switch (sortValue) {
+		case 1:
+			usedArr = ProjectsArr.at(projIdx);
+			console.log(usedArr);
+			break;
+		case 2:
+		usedArr =  sortComplete(projIdx);
+
+		console.log(usedArr);
+		break;
+		case 3:
+			usedArr = sortTitle(projIdx);
+
+			console.log(usedArr);
+			break;
+		case 4:
+			usedArr = sortPrio(projIdx);
+
+			console.log(usedArr);
+			break;
+		case 5:
+			usedArr = sortDate(projIdx);
+
+			break;
+
+			default:
+			usedArr = ProjectsArr.at(projIdx);
+			break;
+	}
+	document.querySelector(".sort1").addEventListener("click", () => {
+		sortValueChanger(1);
+		createView(selectedProj, 1);
+	  });
+	  
+	  document.querySelector(".sort2").addEventListener("click", () => {
+		sortValueChanger(2);
+		createView(selectedProj, 2);
+	  });
+	  document.querySelector(".sort3").addEventListener("click", () => {
+		sortValueChanger(3);
+		createView(selectedProj, 3);
+	  });
+	  document.querySelector(".sort4").addEventListener("click", () => {
+		sortValueChanger(4);
+		createView(selectedProj, 4);
+	  });
+	  document.querySelector(".sort5").addEventListener("click", () => {
+		sortValueChanger(5);
+		createView(selectedProj, 5);
+	  });
+
+	
+	usedArr.forEach((element, index) => {
 		const toDo = document.createElement("div");
 		const toDoTitle = document.createElement("h3");
 		const toDoDescription = document.createElement("p");
@@ -54,7 +149,12 @@ function createView(projIdx) {
 		toDo.classList.add("todo");
 		toDoTitle.textContent = element.title;
 		toDoDescription.textContent = element.description;
-		toDoDate.textContent = element.date;
+		let dateArr = element.date.split("-");
+		let formattedDate = format(new Date(dateArr[0],dateArr[1],dateArr[2]), "cccc dd/MM/yyyy" );
+		const howFar = formatDistanceToNow(new Date(dateArr[0], dateArr[1], dateArr[2]), {
+			addSuffix: true
+		  })
+		toDoDate.innerHTML = `${formattedDate} <br> ${howFar}`;
 		toDoPrio.textContent = element.prio;
 		toDoNote.textContent = element.note;
 		if (element.checklist === true) {
@@ -79,7 +179,10 @@ function createView(projIdx) {
 			}
 		});
 		toDoDeleteBtt.src = img;
-
+		toDoDeleteBtt.addEventListener("click", ()=>{
+			deleteTodo(projIdx, index);
+			createView(projIdx);
+		})
 		container.appendChild(toDo);
 		toDo.appendChild(toDoTopRight);
 		toDoTopRight.appendChild(toDoDeleteBtt);
@@ -90,6 +193,8 @@ function createView(projIdx) {
 		toDo.appendChild(toDoPrio);
 		toDo.appendChild(toDoNote);
 		toDo.appendChild(toDoCheck);
+
+		projSave()
 	});
 }
 
@@ -106,6 +211,7 @@ function projList() {
 			selectedProj = index;
 		});
 	});
+	projSave();
 }
 
 function viewAll() {
@@ -133,6 +239,24 @@ function viewAll() {
 	});
 }
 
+function viewCompleted() {
+let projViewArr = document.querySelectorAll(".todo");
+projViewArr.forEach(element => {
+	if(!(element.children[6].hasAttribute('checked'))) {
+		element.remove();
+	}
+});
+}
+
+function viewNoncomplete() {
+	let projViewArr = document.querySelectorAll(".todo");
+projViewArr.forEach(element => {
+	if((element.children[6].hasAttribute('checked'))) {
+		element.remove();
+	}
+});
+}
+
 export {
 	createView,
 	projList,
@@ -143,4 +267,6 @@ export {
 	changeValueSet,
 	setter,
 	viewAll,
+	viewCompleted,
+	viewNoncomplete,
 };
